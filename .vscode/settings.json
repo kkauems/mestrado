@@ -1,0 +1,12 @@
+{
+    "terminal.integrated.defaultProfile.linux": "bash (ROS Jazzy)",
+    "terminal.integrated.profiles.linux": {
+        "bash (ROS Jazzy)": {
+            "path": "bash",
+            "args": [
+                "-c",
+                "source /opt/ros/jazzy/setup.bash; exec bash"
+            ]
+        }
+    }
+}
