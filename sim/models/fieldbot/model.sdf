@@ -2,34 +2,37 @@
 <sdf version="1.7">
   <model name="fieldbot">
     <static>false</static>
+    <pose>0 0 0 0 0 0</pose>
 
-    <!-- Base link: rectangular box -->
+    <!-- Chassis (base link) -->
     <link name="base_link">
       <pose>0 0 0.075 0 0 0</pose>
       <inertial>
-        <mass>15.78</mass>
-        <!-- Box inertia for lx=0.85, ly=0.55, lz=0.15 -->
+        <mass>11.78</mass>
         <inertia>
-          <ixx>0.427375</ixx>
-          <iyy>0.979</iyy>
-          <izz>1.348</izz>
+          <ixx>0.3190</ixx>
+          <iyy>0.7313</iyy>
+          <izz>1.0062</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
         </inertia>
       </inertial>
-      <visual name="base_visual">
+      <visual name="chassis_visual">
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <box>
             <size>0.85 0.55 0.15</size>
           </box>
         </geometry>
         <material>
-          <ambient>0.3 0.3 0.3 1</ambient>
-          <diffuse>0.6 0.6 0.6 1</diffuse>
+          <ambient>0.2 0.2 0.2 1</ambient>
+          <diffuse>0.4 0.4 0.4 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
         </material>
       </visual>
-      <collision name="base_collision">
+      <collision name="chassis_collision">
+        <pose>0 0 0 0 0 0</pose>
         <geometry>
           <box>
             <size>0.85 0.55 0.15</size>
@@ -38,30 +41,54 @@
       </collision>
     </link>
 
-    <!-- Wheel parameters -->
-    <!-- wheel radius = 0.165 m (33 cm height), width = 0.13 m -->
-    <!-- Mass per wheel (including motor & bearings) = 5.36 kg -->
+    <!-- Battery compartment link -->
+    <link name="battery_link">
+      <pose>0 0 -0.02 0 0 0</pose>
+      <inertial>
+        <mass>4.0</mass>
+        <inertia>
+          <ixx>0.005</ixx>
+          <iyy>0.008</iyy>
+          <izz>0.010</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="battery_visual">
+        <geometry>
+          <box>
+            <size>0.3 0.2 0.05</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.8 0.1 0.1 1</ambient>
+          <diffuse>1.0 0.2 0.2 1</diffuse>
+        </material>
+      </visual>
+    </link>
 
-    <!-- Returns: front left, front right, rear left, rear right -->
-    <!-- Positions: x = +/-0.2225 (half of 0.445 m wheelbase), y = +/-0.35 (half of 0.70 m track) -->
+    <joint name="battery_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>battery_link</child>
+    </joint>
 
     <!-- Front Left Wheel -->
     <link name="wheel_front_left_link">
       <pose>0.2225 0.35 0.165 0 0 0</pose>
       <inertial>
-        <mass>5.36</mass>
-        <!-- Cylinder inertia approx -->
+        <mass>3.25</mass>
         <inertia>
-          <ixx>0.04405</ixx>
-          <iyy>0.0730</iyy>
-          <izz>0.04405</izz>
+          <ixx>0.02689</ixx>
+          <iyy>0.04437</iyy>
+          <izz>0.02689</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
         </inertia>
       </inertial>
       <visual name="wheel_fl_visual">
-        <pose>0 0 0 0 0 0</pose>
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
@@ -74,6 +101,7 @@
         </material>
       </visual>
       <collision name="wheel_fl_collision">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
@@ -87,25 +115,31 @@
     <link name="wheel_front_right_link">
       <pose>0.2225 -0.35 0.165 0 0 0</pose>
       <inertial>
-        <mass>5.36</mass>
+        <mass>3.25</mass>
         <inertia>
-          <ixx>0.04405</ixx>
-          <iyy>0.0730</iyy>
-          <izz>0.04405</izz>
+          <ixx>0.02689</ixx>
+          <iyy>0.04437</iyy>
+          <izz>0.02689</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
         </inertia>
       </inertial>
       <visual name="wheel_fr_visual">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
             <length>0.13</length>
           </cylinder>
         </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
       </visual>
       <collision name="wheel_fr_collision">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
@@ -119,25 +153,31 @@
     <link name="wheel_rear_left_link">
       <pose>-0.2225 0.35 0.165 0 0 0</pose>
       <inertial>
-        <mass>5.36</mass>
+        <mass>3.25</mass>
         <inertia>
-          <ixx>0.04405</ixx>
-          <iyy>0.0730</iyy>
-          <izz>0.04405</izz>
+          <ixx>0.02689</ixx>
+          <iyy>0.04437</iyy>
+          <izz>0.02689</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
         </inertia>
       </inertial>
       <visual name="wheel_rl_visual">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
             <length>0.13</length>
           </cylinder>
         </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
       </visual>
       <collision name="wheel_rl_collision">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
@@ -151,25 +191,31 @@
     <link name="wheel_rear_right_link">
       <pose>-0.2225 -0.35 0.165 0 0 0</pose>
       <inertial>
-        <mass>5.36</mass>
+        <mass>3.25</mass>
         <inertia>
-          <ixx>0.04405</ixx>
-          <iyy>0.0730</iyy>
-          <izz>0.04405</izz>
+          <ixx>0.02689</ixx>
+          <iyy>0.04437</iyy>
+          <izz>0.02689</izz>
           <ixy>0.0</ixy>
           <ixz>0.0</ixz>
           <iyz>0.0</iyz>
         </inertia>
       </inertial>
       <visual name="wheel_rr_visual">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
             <length>0.13</length>
           </cylinder>
         </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
       </visual>
       <collision name="wheel_rr_collision">
+        <pose>0 0 0 1.5708 0 0</pose>
         <geometry>
           <cylinder>
             <radius>0.165</radius>
@@ -179,7 +225,7 @@
       </collision>
     </link>
 
-    <!-- Joints: revolute joints connecting wheels to base -->
+    <!-- Joints -->
     <joint name="joint_wheel_fl" type="revolute">
       <parent>base_link</parent>
       <child>wheel_front_left_link</child>
@@ -189,10 +235,12 @@
         <limit>
           <lower>-1000</lower>
           <upper>1000</upper>
+          <effort>100</effort>
+          <velocity>10</velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
-          <friction>0.0</friction>
+          <damping>0.05</damping>
+          <friction>0.01</friction>
         </dynamics>
       </axis>
     </joint>
@@ -206,10 +254,12 @@
         <limit>
           <lower>-1000</lower>
           <upper>1000</upper>
+          <effort>100</effort>
+          <velocity>10</velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
-          <friction>0.0</friction>
+          <damping>0.05</damping>
+          <friction>0.01</friction>
         </dynamics>
       </axis>
     </joint>
@@ -223,10 +273,12 @@
         <limit>
           <lower>-1000</lower>
           <upper>1000</upper>
+          <effort>100</effort>
+          <velocity>10</velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
-          <friction>0.0</friction>
+          <damping>0.05</damping>
+          <friction>0.01</friction>
         </dynamics>
       </axis>
     </joint>
@@ -240,51 +292,47 @@
         <limit>
           <lower>-1000</lower>
           <upper>1000</upper>
+          <effort>100</effort>
+          <velocity>10</velocity>
         </limit>
         <dynamics>
-          <damping>0.1</damping>
-          <friction>0.0</friction>
+          <damping>0.05</damping>
+          <friction>0.01</friction>
         </dynamics>
       </axis>
     </joint>
 
-    <!-- ros2_control configuration for gazebo_ros2_control -->
-    <ros2_control name="fieldbot_ros2_control">
-      <hardware>
-        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-      </hardware>
+    <!-- Camera mount -->
+    <link name="camera_mount">
+      <pose>0.425 0 0.15 0 0 0</pose>
+      <inertial>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.0001</ixx>
+          <iyy>0.0001</iyy>
+          <izz>0.0001</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="camera_mount_visual">
+        <geometry>
+          <box>
+            <size>0.05 0.05 0.05</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.7 0.7 0.7 1</ambient>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+        </material>
+      </visual>
+    </link>
 
-      <joint name="joint_wheel_fl">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-
-      <joint name="joint_wheel_fr">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-
-      <joint name="joint_wheel_rl">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-
-      <joint name="joint_wheel_rr">
-        <command_interface name="velocity"/>
-        <state_interface name="position"/>
-        <state_interface name="velocity"/>
-      </joint>
-
-    </ros2_control>
-
-    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-      <robotNamespace>/</robotNamespace>
-      <legacyMode>false</legacyMode>
-    </plugin>
+    <joint name="camera_mount_joint" type="fixed">
+      <parent>base_link</parent>
+      <child>camera_mount</child>
+    </joint>
 
   </model>
 </sdf>
-
