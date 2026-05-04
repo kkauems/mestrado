@@ -1,0 +1,290 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <model name="fieldbot">
+    <static>false</static>
+
+    <!-- Base link: rectangular box -->
+    <link name="base_link">
+      <pose>0 0 0.075 0 0 0</pose>
+      <inertial>
+        <mass>15.78</mass>
+        <!-- Box inertia for lx=0.85, ly=0.55, lz=0.15 -->
+        <inertia>
+          <ixx>0.427375</ixx>
+          <iyy>0.979</iyy>
+          <izz>1.348</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="base_visual">
+        <geometry>
+          <box>
+            <size>0.85 0.55 0.15</size>
+          </box>
+        </geometry>
+        <material>
+          <ambient>0.3 0.3 0.3 1</ambient>
+          <diffuse>0.6 0.6 0.6 1</diffuse>
+        </material>
+      </visual>
+      <collision name="base_collision">
+        <geometry>
+          <box>
+            <size>0.85 0.55 0.15</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Wheel parameters -->
+    <!-- wheel radius = 0.165 m (33 cm height), width = 0.13 m -->
+    <!-- Mass per wheel (including motor & bearings) = 5.36 kg -->
+
+    <!-- Returns: front left, front right, rear left, rear right -->
+    <!-- Positions: x = +/-0.2225 (half of 0.445 m wheelbase), y = +/-0.35 (half of 0.70 m track) -->
+
+    <!-- Front Left Wheel -->
+    <link name="wheel_front_left_link">
+      <pose>0.2225 0.35 0.165 0 0 0</pose>
+      <inertial>
+        <mass>5.36</mass>
+        <!-- Cylinder inertia approx -->
+        <inertia>
+          <ixx>0.04405</ixx>
+          <iyy>0.0730</iyy>
+          <izz>0.04405</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="wheel_fl_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+        <material>
+          <ambient>0.05 0.05 0.05 1</ambient>
+          <diffuse>0.1 0.1 0.1 1</diffuse>
+        </material>
+      </visual>
+      <collision name="wheel_fl_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Front Right Wheel -->
+    <link name="wheel_front_right_link">
+      <pose>0.2225 -0.35 0.165 0 0 0</pose>
+      <inertial>
+        <mass>5.36</mass>
+        <inertia>
+          <ixx>0.04405</ixx>
+          <iyy>0.0730</iyy>
+          <izz>0.04405</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="wheel_fr_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </visual>
+      <collision name="wheel_fr_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Rear Left Wheel -->
+    <link name="wheel_rear_left_link">
+      <pose>-0.2225 0.35 0.165 0 0 0</pose>
+      <inertial>
+        <mass>5.36</mass>
+        <inertia>
+          <ixx>0.04405</ixx>
+          <iyy>0.0730</iyy>
+          <izz>0.04405</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="wheel_rl_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </visual>
+      <collision name="wheel_rl_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Rear Right Wheel -->
+    <link name="wheel_rear_right_link">
+      <pose>-0.2225 -0.35 0.165 0 0 0</pose>
+      <inertial>
+        <mass>5.36</mass>
+        <inertia>
+          <ixx>0.04405</ixx>
+          <iyy>0.0730</iyy>
+          <izz>0.04405</izz>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyz>0.0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="wheel_rr_visual">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </visual>
+      <collision name="wheel_rr_collision">
+        <geometry>
+          <cylinder>
+            <radius>0.165</radius>
+            <length>0.13</length>
+          </cylinder>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- Joints: revolute joints connecting wheels to base -->
+    <joint name="joint_wheel_fl" type="revolute">
+      <parent>base_link</parent>
+      <child>wheel_front_left_link</child>
+      <pose>0.2225 0.35 0 0 0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1000</lower>
+          <upper>1000</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.0</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="joint_wheel_fr" type="revolute">
+      <parent>base_link</parent>
+      <child>wheel_front_right_link</child>
+      <pose>0.2225 -0.35 0 0 0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1000</lower>
+          <upper>1000</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.0</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="joint_wheel_rl" type="revolute">
+      <parent>base_link</parent>
+      <child>wheel_rear_left_link</child>
+      <pose>-0.2225 0.35 0 0 0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1000</lower>
+          <upper>1000</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.0</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <joint name="joint_wheel_rr" type="revolute">
+      <parent>base_link</parent>
+      <child>wheel_rear_right_link</child>
+      <pose>-0.2225 -0.35 0 0 0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <limit>
+          <lower>-1000</lower>
+          <upper>1000</upper>
+        </limit>
+        <dynamics>
+          <damping>0.1</damping>
+          <friction>0.0</friction>
+        </dynamics>
+      </axis>
+    </joint>
+
+    <!-- ros2_control configuration for gazebo_ros2_control -->
+    <ros2_control name="fieldbot_ros2_control">
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+
+      <joint name="joint_wheel_fl">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <joint name="joint_wheel_fr">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <joint name="joint_wheel_rl">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+
+      <joint name="joint_wheel_rr">
+        <command_interface name="velocity"/>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+      </joint>
+
+    </ros2_control>
+
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+      <robotNamespace>/</robotNamespace>
+      <legacyMode>false</legacyMode>
+    </plugin>
+
+  </model>
+</sdf>
+
